@@ -35,22 +35,20 @@ class vpnTimer:
                     remainingMinutes = str("0" + str(remainingMinutes))
                 self.timerCountdown.configure(text="Time Remaining: " + str(hoursLeft) + ":" + str(remainingMinutes))
                 self.window.update() # necessary because it is in its own loop so allows the new configuration to update
-                sleep(0.5)
+                sleep(60)
         except:
             raise
         finally:
-            pass
-            # self.window.destroy()
-            # self.connect()
-            # exit()
+            # Before ending the program, everything is closed and the vpn is reconnected as would make sense :)
+            self.window.destroy()
+            self.connect()
+            exit()
 
     def disconnect(self):
-        # subprocess.call(["sh", "/home/james/Documents/cron/piaOff.sh"])
-        print("disconnect")
+        subprocess.call(["sh", "/home/james/Documents/cron/piaOff.sh"])
 
     def connect(self):
-        # subprocess.Popen(["sh", "/home/james/Documents/cron/piaOn.sh"]) # Using call here breaks it and pia will close anytime you end the program
-        print("connect")
+        subprocess.Popen(["sh", "/home/james/Documents/cron/piaOn.sh"]) # Using call here breaks it and pia will close anytime you end the program
 
 if __name__ == '__main__':
     timer = vpnTimer()

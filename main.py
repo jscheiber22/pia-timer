@@ -8,10 +8,10 @@ class vpnTimer:
         self.window.rowconfigure([0, 1, 2], minsize = 100, weight = 1)
         self.window.columnconfigure([0, 1, 2], minsize = 100, weight = 1)
 
-        tk.Label(master=self.window, text="Sleep Time (minutes): ").grid(row = 0, column = 1, sticky = 's')
+        tk.Label(master=self.window, text="Sleep Time (hours): ").grid(row = 0, column = 1, sticky = 's')
 
         self.delayTimeBox = tk.Entry(master=self.window, width = 6)
-        self.delayTimeBox.insert(10, "60")
+        self.delayTimeBox.insert(10, "1")
         self.delayTimeBox.bind("<Return>", self.wait)
         self.delayTimeBox.grid(row = 1, column = 1)
 
@@ -24,10 +24,9 @@ class vpnTimer:
     def wait(self, event):
         sleepTime = float(self.delayTimeBox.get())
         self.disconnect()
-        print("ragne: "+ str(range(0, round(sleepTime))))
         try:
-            for minute in range(0, round(sleepTime)):
-                totalMinutesLeft = round(sleepTime) - minute
+            for minute in range(0, round(sleepTime * 60)): #convert hours to minutes
+                totalMinutesLeft = round(sleepTime * 60) - minute # everything after this based on this variable
                 hoursLeft = int(totalMinutesLeft / 60)
                 if hoursLeft < 10: # helps formatting so that it is in "HH:MM" format :)
                     hoursLeft = str("0" + str(hoursLeft))

@@ -49,6 +49,7 @@ class vpnTimer:
 
     def connect(self):
         subprocess.Popen(["sh", "/home/james/Documents/cron/piaOn.sh"]) # Using call here breaks it and pia will close anytime you end the program
+        sleep(5) # Program closes too fast so adding this allows it to actually connect
 
 if __name__ == '__main__':
     timer = vpnTimer()

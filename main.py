@@ -15,30 +15,43 @@ class vpnTimer:
         self.delayTimeBox.bind("<Return>", self.wait)
         self.delayTimeBox.grid(row = 1, column = 1)
 
-        self.inHours = tk.Label(master=self.window, text="In Hours: 1")
-        self.inHours.grid(row = 2, column = 1, sticky = "n")
+        self.timerCountdown = tk.Label(master=self.window, text="Time Remaining: 00:00")
+        self.timerCountdown.grid(row = 2, column = 1, sticky = "n")
 
     def run(self):
         self.window.mainloop()
 
     def wait(self, event):
         sleepTime = float(self.delayTimeBox.get())
-        self.inHours.configure(text="In Hours: " + str(round((float(sleepTime)/60.0), 2)))
         self.disconnect()
+        print("ragne: "+ str(range(0, round(sleepTime))))
         try:
-            sleep(int(60 * sleepTime)) # Sleep time is in minutes, but sleep takes seconds, so 60 * minutes = seconds :)
+            for minute in range(0, round(sleepTime)):
+                totalMinutesLeft = round(sleepTime) - minute
+                hoursLeft = int(totalMinutesLeft / 60)
+                if hoursLeft < 10: # helps formatting so that it is in "HH:MM" format :)
+                    hoursLeft = str("0" + str(hoursLeft))
+                remainingMinutes = int(totalMinutesLeft % 60)
+                if remainingMinutes < 10:
+                    remainingMinutes = str("0" + str(remainingMinutes))
+                self.timerCountdown.configure(text="Time Remaining: " + str(hoursLeft) + ":" + str(remainingMinutes))
+                self.window.update() # necessary because it is in its own loop so allows the new configuration to update
+                sleep(0.5)
         except:
             raise
         finally:
-            self.window.destroy()
-            self.connect()
-            exit()
+            pass
+            # self.window.destroy()
+            # self.connect()
+            # exit()
 
     def disconnect(self):
-        subprocess.call(["sh", "/home/james/Documents/cron/piaOff.sh"])
+        # subprocess.call(["sh", "/home/james/Documents/cron/piaOff.sh"])
+        print("disconnect")
 
     def connect(self):
-        subprocess.Popen(["sh", "/home/james/Documents/cron/piaOn.sh"]) # Using call here breaks it and pia will close anytime you end the program
+        # subprocess.Popen(["sh", "/home/james/Documents/cron/piaOn.sh"]) # Using call here breaks it and pia will close anytime you end the program
+        print("connect")
 
 if __name__ == '__main__':
     timer = vpnTimer()

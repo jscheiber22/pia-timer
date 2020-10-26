@@ -27,22 +27,18 @@ class vpnTimer:
         self.disconnect()
         try:
             sleep(int(60 * sleepTime)) # Sleep time is in minutes, but sleep takes seconds, so 60 * minutes = seconds :)
-            self.connect()
-        except KeyboardInterrupt:
-            self.connect()
-            self.window.destroy()
-            exit()
         except:
-            self.connect()
             raise
+        finally:
+            self.window.destroy()
+            self.connect()
+            exit()
 
     def disconnect(self):
-        print("disconnect")
-        #subprocess.call(["sh", "/home/james/Documents/cron/piaOff.sh"])
+        subprocess.call(["sh", "/home/james/Documents/cron/piaOff.sh"])
 
     def connect(self):
-        print("connect")
-        #subprocess.call(["sh", "/home/james/Documents/cron/piaOn.sh"])
+        subprocess.Popen(["sh", "/home/james/Documents/cron/piaOn.sh"]) # Using call here breaks it and pia will close anytime you end the program
 
 if __name__ == '__main__':
     timer = vpnTimer()

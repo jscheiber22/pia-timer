@@ -2,6 +2,9 @@ import subprocess
 import tkinter as tk
 from time import sleep
 
+# Change this to specific location of On/Off files being run
+PATH = "/home/james/Documents/cron/"
+
 class vpnTimer:
     def __init__(self):
         self.window = tk.Tk()
@@ -45,10 +48,10 @@ class vpnTimer:
             exit()
 
     def disconnect(self):
-        subprocess.call(["sh", "/home/james/Documents/cron/piaOff.sh"])
+        subprocess.call(["sh", PATH + "piaOff.sh"])
 
     def connect(self):
-        subprocess.Popen(["sh", "/home/james/Documents/cron/piaOn.sh"]) # Using call here breaks it and pia will close anytime you end the program
+        subprocess.Popen(["sh", PATH + "piaOn.sh"]) # Using call here breaks it and pia will close anytime you end the program
         sleep(5) # Program closes too fast so adding this allows it to actually connect
 
 if __name__ == '__main__':

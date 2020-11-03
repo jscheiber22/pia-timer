@@ -1,4 +1,4 @@
 #! /bin/bash
 
 /opt/piavpn/bin/pia-client %u
-echo "Connecting new"
+echo "Connecting to PIA..."
